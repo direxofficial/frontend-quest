@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Frontend Quest – HTML / CSS / JS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#020617" />
+  <!-- iOS PWA -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Frontend Quest" />
+  <!-- iOS icons -->
+<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180-ios.png" />
+<!-- по желанию можно добавить и другие размеры -->
+<link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png" />
+
+</head>
+<body>
+  <div id="appSplash" class="splash">
+  <div class="splash-inner">
+    <div class="splash-logo">
+      <img src="icons/icon-192.png" />
+      <span class="splash-logo-text">Frontend Quest</span>
+    </div>
+    <div class="splash-subtitle">Загружаем твой фронтенд-мир...</div>
+    <div class="splash-loader">
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+      <div class="splash-dot"></div>
+    </div>
+  </div>
+</div>
+
+  <div id="app">
+    <header>
+      <div class="header-top">
+  <div class="header-title-block">
+    <h1>Frontend Quest</h1>
+    <small>Интерактивный курс HTML / CSS / JS под телефон</small>
+  </div>
+
+  <div class="header-right">
+    <button id="themeToggle" class="theme-toggle" aria-label="Сменить тему">
+      ☾
+    </button>
+
+    <div class="track-switcher" id="trackSwitcher">
+      <button class="track-switcher-btn active" data-track="js">
+        JS
+      </button>
+      <button class="track-switcher-btn" data-track="html">
+        HTML
+      </button>
+      <button class="track-switcher-btn" data-track="css">
+        CSS
+      </button>
+      <div
+        class="track-switcher-highlight"
+        id="trackSwitcherHighlight"
+      ></div>
+    </div>
+  </div>
+</div>
+
+
+      <div class="progress-wrapper">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progressBar"></div>
+        </div>
+        <div class="progress-text">
+          <span id="progressLabel">Прогресс: 0%</span>
+          <button id="certificateBtn" class="certificate-btn" disabled>
+            Сертификат
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- ЭКРАН КУРСА -->
+      <div id="courseView" class="view">
+        <div class="module-list" id="moduleList"></div>
+
+        <div class="lesson-layout">
+          <div class="lesson-list" id="lessonList"></div>
+
+          <div class="lesson-detail" id="lessonDetail">
+            <h2>Выбери урок</h2>
+            <p class="lesson-description">
+              Выбери трек (JS / HTML / CSS) наверху, потом модуль и урок.
+              Прогресс каждого трека считается отдельно и сохраняется в памяти браузера.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ЭКРАН ПРАКТИКУМА (JS) -->
+      <div id="practiceView" class="view view-hidden">
+        <div class="practice-layout">
+          <div class="practice-task-list" id="practiceTaskList"></div>
+
+          <div class="practice-editor" id="practiceEditor">
+            <div class="practice-editor-header">
+              <span id="practiceTaskTitle">Практикум JS</span>
+              <span id="practiceHearts" class="hearts-label">♥♥♥♥♥</span>
+            </div>
+            <div class="practice-task-desc" id="practiceTaskDesc">
+              Выбери задачу выше, напиши код в поле и запусти его.
+              Вывод из console.log появится ниже.
+            </div>
+            <textarea
+              id="practiceCode"
+              class="practice-code"
+              spellcheck="false"
+            ></textarea>
+            <div class="practice-actions">
+              <button id="practiceRunBtn" class="btn">Запустить</button>
+              <button id="practiceCheckBtn" class="btn-outline">
+                Проверить задачу
+              </button>
+            </div>
+            <pre id="practiceOutput" class="practice-output">
+Результат выполнения появится здесь.
+            </pre>
+
+            <!-- DOM-песочница для задач по DOM -->
+            <div id="practiceDomSandbox" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ЭКРАН БИБЛИОТЕКИ -->
+<div id="libraryView" class="view view-hidden">
+  <div class="library-header">
+    <input
+      id="librarySearch"
+      class="library-search"
+      type="search"
+      placeholder="Поиск по шпаргалке (например, 'flex', 'fetch')"
+    />
+    <div class="library-level-tabs">
+      <button class="library-level-btn active" data-level="all">
+        All
+      </button>
+      <button class="library-level-btn" data-level="beginner">
+        Beginner
+      </button>
+      <button class="library-level-btn" data-level="intermediate">
+        Intermediate
+      </button>
+      <button class="library-level-btn" data-level="advanced">
+        Advanced
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-layout" id="libraryContainer"></div>
+</div>
+
+
+      
+      <!-- ЭКРАН СТАТИСТИКИ -->
+      <div id="statsView" class="view view-hidden">
+        <div class="stats-layout" id="statsContainer"></div>
+      </div>
+
+      <!-- ЭКРАН ПРОФИЛЯ -->
+      <div id="profileView" class="view view-hidden">
+        <div class="profile-layout">
+          <div class="profile-card">
+            <div class="profile-avatar" id="profileAvatar">?</div>
+            <div class="profile-main">
+              <input
+                id="profileNameInput"
+                class="profile-name-input"
+                placeholder="Твоё имя или ник"
+                autocomplete="name"
+              />
+              <div class="profile-sub" id="profileSubLine">
+                Новичок во Frontend Quest
+              </div>
+            </div>
+          </div>
+
+          <div class="module-stats">
+            <div style="font-weight:600;font-size:12px;">Обзор прогресса</div>
+            <div class="module-stat-row">
+              <span>Уроки (активный трек)</span>
+              <span id="profileLessonsSummary">0/0</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Практикум (JS)</span>
+              <span id="profilePracticeSummary">0/0</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Всего XP</span>
+              <span id="profileTotalXp">0</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Навык JS</span>
+              <span id="profileSkillJs">Новичок</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Навык HTML</span>
+              <span id="profileSkillHtml">Новичок</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Навык CSS</span>
+              <span id="profileSkillCss">Новичок</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Ачивки</span>
+              <span id="profileAchievements">0</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Серия дней</span>
+              <span id="profileStreak">0</span>
+            </div>
+            <div class="module-stat-row">
+              <span>Сегодня</span>
+              <span id="profileTodayStatus">ещё не занимался</span>
+            </div>
+          </div>
+
+          <div class="module-stats">
+            <div style="font-weight:600;font-size:12px;">Дневная цель</div>
+            <div class="profile-goal-row">
+              <input
+                type="range"
+                id="profileGoalInput"
+                min="10"
+                max="200"
+                step="10"
+              />
+              <span id="profileGoalValue">50 XP/день</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <nav class="bottom-nav" id="bottomNav">
+      <button class="bottom-nav-btn active" data-view="course">Курс</button>
+      <button class="bottom-nav-btn" data-view="practice">Практикум</button>
+      <button class="bottom-nav-btn" data-view="library">Библиотека</button>
+      <button class="bottom-nav-btn" data-view="stats">Статистика</button>
+      <button class="bottom-nav-btn" data-view="profile">Профиль</button>
+    </nav>
+
+    <footer>
+      <div class="footer-text">
+        © 2026 Developed by <a href="https://www.instagram.com/direx_off.inst/" target="_blank" rel="noopener noreferrer"></a>. Все права защищены.
+      </div>
+    </footer>
+
+  </div>                  
+  <!-- Сертификат -->
+  <div class="certificate-overlay" id="certificateOverlay">
+    <div class="certificate-card">
+      <div class="certificate-title">Certificate of Completion</div>
+      <div class="certificate-line"></div>
+      <div style="font-size: 13px; color:#d1d5db;">
+        Настоящим подтверждается, что
+      </div>
+      <input
+        id="certificateName"
+        class="certificate-name-input"
+        placeholder="введи своё имя"
+        autocomplete="name"
+      />
+      <div style="font-size: 13px; color:#d1d5db;">
+        успешно прошёл(а) трек
+        <strong id="certificateTrackName">Frontend Quest</strong>
+        и завершил(а) 100% базовых уроков.
+      </div>
+      <div
+        style="font-size: 11px; color:#9ca3af; margin-top:4px;"
+        id="certificateDate"
+      ></div>
+      <div class="certificate-btn-row">
+        <button class="btn" id="certificateCloseBtn">Готово</button>
+        <button class="btn-outline" id="certificateShareHintBtn">
+          Сделать скрин
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Панель вдохновения -->
+  <button id="inspireBtn" class="inspire-btn" aria-label="Вдохновение">
+    ♫
+  </button>
+
+  <div id="inspirePanel" class="inspire-panel">
+    <div class="inspire-header">
+      <span>Вдохновение</span>
+      <button id="inspireCloseBtn" class="inspire-close">✕</button>
+    </div>
+    <div class="inspire-body">
+      <p>Плейлист включить мозг на максимум:</p>
+      <ul>
+        <li>Carpenter Brut – Turbo Killer</li>
+        <li>Hans Zimmer – Time (Inception)</li>
+        <li>Two Steps From Hell – Heart of Courage</li>
+        <li>Daft Punk – Derezzed (Tron)</li>
+        <li>Alan Walker – Spectre</li>
+        <li>Любой lo-fi / coding beats плейлист</li>
+      </ul>
+      <p class="inspire-hint">
+        Открой любимый стриминг / YouTube, включи пару треков и возвращайся
+        к задачам. Главное — не зависнуть только в музыке.
+      </p>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+  // Fallback: даже если app.js сломался, убираем сплэш через 2 секунды
+  window.addEventListener("load", function () {
+    var splash = document.getElementById("appSplash");
+    if (!splash) return;
+    setTimeout(function () {
+      splash.classList.add("splash-hidden");
+    }, 2000);
+  });
+</script>
+</body>
+</html>
+</body>
+</html>
